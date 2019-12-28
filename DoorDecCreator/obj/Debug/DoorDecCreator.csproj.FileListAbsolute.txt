@@ -1,0 +1,14 @@
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\bin\Debug\DoorDecCreator.exe.config
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\bin\Debug\DoorDecCreator.exe
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\bin\Debug\DoorDecCreator.pdb
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.csprojAssemblyReference.cache
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.Properties.Resources.resources
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.csproj.GenerateResource.cache
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.csproj.CoreCompileInputs.cache
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.exe
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.pdb
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.SingleDecForm.resources
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.Menu.resources
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.MultipleDecForm.resources
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.csproj.ResolveComReference.cache
+C:\Users\7485869\Documents\RA Stuff 2019-2020\DoorDecCreator\obj\Debug\DoorDecCreator.HelpForm.resources
