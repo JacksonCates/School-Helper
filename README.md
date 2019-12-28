@@ -1,4 +1,4 @@
-# CSC150 Fall 2019 Programs
+# Personal Projects
 
 - Author: Jackson Cates
 - Language: C#
