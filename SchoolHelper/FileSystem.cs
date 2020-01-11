@@ -42,7 +42,8 @@ namespace SchoolHelper
         private static string[] dirs;
         private static List<string[]> files = new List<string[]>(); // Sets of files per folder
         private static List<Course> coursesToUpdate = new List<Course>();
-        private const string GeneralSheetName = "General";
+
+
         private const string EndOfData = "END";
 
         // Finds all of the files in the folder and prints the paths for testing
