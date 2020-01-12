@@ -99,6 +99,15 @@ namespace DoorDecCreator
                     }
                 }
 
+                // Adds the last element in the list
+                int lastIndex = fullNames.Count() - 1;
+                if (String.Equals(fullNames[lastIndex - 1).Item1, fullNames[lastIndex].Item1))
+                {
+                    names.Add(fullNames[lastIndex].Item1 + " " + fullNames[lastIndex].Item2[0] + ".");
+                }
+                else
+                    names.Add(fullNames[lastIndex].Item1);
+
                 // Adds it all to the text box
                 NameListBox.Items.Clear();
                 foreach (string name in names)
