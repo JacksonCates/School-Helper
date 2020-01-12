@@ -101,7 +101,7 @@ namespace DoorDecCreator
 
                 // Adds the last element in the list
                 int lastIndex = fullNames.Count() - 1;
-                if (String.Equals(fullNames[lastIndex - 1).Item1, fullNames[lastIndex].Item1))
+                if (String.Equals(fullNames[lastIndex - 1].Item1, fullNames[lastIndex].Item1))
                 {
                     names.Add(fullNames[lastIndex].Item1 + " " + fullNames[lastIndex].Item2[0] + ".");
                 }
