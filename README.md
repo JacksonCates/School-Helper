@@ -24,7 +24,7 @@ The last tools is the program can be used to project the user's GPA. Based on th
  ## Program 2:
 
  - Title: Door Dec Creator
- - Last Updated: 13 December 2019
+ - Last Updated: 11 January 2020
  
 #### Program Description: 
 
