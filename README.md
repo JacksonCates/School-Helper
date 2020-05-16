@@ -35,5 +35,3 @@ To use this program, there are two files to be used. Under the directory bin/deb
 This program has two modes, single door dec creator and multiple door dec creator. Both modes allow the user to control the dimensions and various other image and font options (boarder thickness, font size, font type, etc...).
 
 Where they differ is how they process names and images. While single mode allows the user to directly input the image and name, the multiple door dec is a bit more automated. The mutiple door dec takes the images from the directory and names from a spreadsheet. These names are already formated by my school's standards. 
-
-THERE ARE STILL BUGS IN THIS PROGRAM THAT NEEDS TO BE WORKED OUT. I AM CURRENTLY IN THE PROCESS OF FIXING THEM :)
