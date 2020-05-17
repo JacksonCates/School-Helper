@@ -15,6 +15,10 @@ namespace DoorDecCreator
         public HelpForm()
         {
             InitializeComponent();
+
+            // Removes the ability to change window size
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
     }
 }

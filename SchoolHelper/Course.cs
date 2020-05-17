@@ -311,7 +311,7 @@ namespace SchoolHelper
             }
 
             // Writes the table
-            Draw.TableWithData(9, 11, 15, new string[] {
+            Draw.TableWithData(3, 11, 15, new string[] {
                 "NAME:", "GRADE:", "WEIGHT:", "% LOST:", "# ENTRIES:",
                 "# EXPECTED:", "% COMPLETED:" }, Program.TableColor, data, true);
                            

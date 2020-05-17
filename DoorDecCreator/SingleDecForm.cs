@@ -18,6 +18,10 @@ namespace DoorDecCreator
         public SingleDecForm()
         {
             InitializeComponent();
+
+            // Removes the ability to change window size
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         // Updates the picture

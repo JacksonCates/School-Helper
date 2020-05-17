@@ -18,10 +18,16 @@ namespace DoorDecCreator
         List<Tuple<string, string>> fullNames = new List<Tuple<string, string>>();
         List<string> names = new List<string>();
         OpenFileDialog ofd = new OpenFileDialog();
+        string imagesPath = "";
+        string destPath = "";
 
         public MultipleDecForm()
         {
             InitializeComponent();
+
+            // Removes the ability to change window size
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void UpdateTemplates()
@@ -169,7 +175,7 @@ namespace DoorDecCreator
 
         private void MultipleDecForm_Load(object sender, EventArgs e)
         {
-            // Open and read files
+
         }
 
         private void HelpButton_Click(object sender, EventArgs e)
@@ -200,8 +206,24 @@ namespace DoorDecCreator
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Test if a images path is given
+            if (imagesPath == "")
+            {
+                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    imagesPath = folderBrowserDialog.SelectedPath;
+                }
+            }
+
+            // Test if the dest path is given
+            if (destPath == "")
+            {
+                destPath = imagesPath;
+            }
+
             // Reads the images folder
-            string[] paths = Directory.GetFiles(@"FileSystem\Images");
+            string[] paths = Directory.GetFiles(imagesPath);
 
             // Checks if everything is ready to go
             if (names.Count() == 0)
@@ -210,16 +232,25 @@ namespace DoorDecCreator
             }
             else if (paths.Length == 0 || paths.Length < names.Count())
             {
-                MessageBox.Show("Error: You need (more) images in the FileSytem\\Images folder!" +
+                MessageBox.Show("Error: You need (more) images in " + imagesPath +
                                 "\n\n Number of Images: " + paths.Length.ToString() + 
                                 "\n\n Number of Names: " + names.Count().ToString());
 
+            }
+            else if (UprTextBox.Text == "" || LwrRngTextBox.Text == "" || FirstColTextBox.Text == "" 
+                || LastColTextBox.Text == "" || titleBox.Text == "" || borderThicknessBox.Text == "" || fontSizeBox.Text == ""
+                || LanTotalWidthTextBox.Text == "" || LanTotalHeightTextBox.Text == "" || PorTotalHeightTextBox.Text == "" || PorTotalWidthTextBox.Text == "")
+            {
+                MessageBox.Show("Error: All boxes must be filled!");
             }
             else
             {
                 // Creates all of the files
                 try
                 {
+                    // Prompts the user we are creating the door decs
+                    MessageBox.Show("Creating decs...");
+
                     // Creats a door dec for each residnet
                     int width;
                     int height;
@@ -246,7 +277,7 @@ namespace DoorDecCreator
                         Image currDec = DrawImage(height, width, names[i], pic);
 
                         // Saves
-                        currDec.Save("FileSystem\\Finished\\" + names[i] + ".jpg");
+                        currDec.Save(destPath + "\\" + names[i] + ".jpg");
                     }
 
                     MessageBox.Show("Created " + names.Count().ToString() + " decs!");
@@ -255,6 +286,24 @@ namespace DoorDecCreator
                 {
                     MessageBox.Show(exp.ToString());
                 }
+            }
+        }
+
+        private void SetImagesFolderButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                imagesPath = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void SetDestinationFolderButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                destPath = folderBrowserDialog.SelectedPath;
             }
         }
     }
