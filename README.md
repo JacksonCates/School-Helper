@@ -4,6 +4,8 @@
  - Last Updated: 28 December 2019
  - Language: C#
  
+![](SchoolHelper.gif)
+ 
 #### Program Description:  
 
 While I went to school at SDSM&T, the grading system varied from professor to professor. While for most courses this was not a problem, there was a few courses where I wouldn't know my grade for the majority of the semester. In order to tackle this problem, while also developing a couple of extra tools, I developed this school to help with my school.
@@ -15,3 +17,8 @@ The first tool is to calculate and display grade information. This is what grade
 The second tool is the program can tell the user what final grade would be required for each letter grade in the course. This gives me general information of how the user would need to perform in my final exams.
 
 The last tools is the program can be used to project the user's GPA. Based on the completed course information given, the user can input what grades they think they will get in their current classes, and give what their new GPA will be after that semester.
+
+#### Techniques/Methods Used:
+ * Object oriented programming
+ * File manipulation/management
+ * Git source control
