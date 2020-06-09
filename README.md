@@ -1,7 +1,7 @@
 ## School Helper
 
  - Title: School Helper
- - Last Updated: 28 December 2019
+ - Last Updated: 9 June 2020
  - Language: C#
  
 ![](SchoolHelper.gif)
@@ -21,4 +21,5 @@ The last tools is the program can be used to project the user's GPA. Based on th
 #### Techniques/Methods Used:
  * Object oriented programming
  * File manipulation/management
+ * Simple Drawing
  * Git source control
