@@ -9,23 +9,8 @@ using System.IO;
  * 
  * The file system deals with reading and writing data to the files for future use.
  * 
- * Each course will get its own folder in the "FileSystem" folder. This folder will
- * have the course name in the folder name. For each course folder, it will have a
- * variety of files to store various information.
- * 
- * The first file is the general course information file. This file can be found by
- * its name by the course name followed by "COURSEINFO." This file contains the course
- * name, the number of credits, and the grade cut offs (1st is for an 'A', 2nd is for an
- * 'B', etc).
- * 
- * The second file is the catagory information file. This file can be found by its
- * name by the course name followed by "CATAGORYINFO." This file contains the name of
- * each catagory, followed by its corresponding weight.
- * 
- * The rest of the files are grade information. Each catagory will have a file containing
- * the grades for that catagory. The file canbe found by its name by the course name, 
- * followed by the catagory name, then "GRADEINFO." This stores all the grade's name, 
- * points earned, and points possible.
+ * Each course will get its own excel file in the "FileSystem" folder. This file will
+ * have all of the course information needed to run the program
  * 
  * The file system also updates the files whenever a new grade or course it added.
  * 
@@ -113,11 +98,11 @@ namespace SchoolHelper
                         }
                         newCourse.PercCutoff = cutOffs;
 
-                        // Read and add catagories
-                        List<Catagory> currCats = new List<Catagory>();
+                        // Read and add categories
+                        List<Category> currCats = new List<Category>();
                         for (int j = 2; excel.ReadCell(j, 7).Equals(EndOfData) == false; j++)
                         {
-                            Catagory currCat = new Catagory();
+                            Category currCat = new Category();
                             currCat.Name = excel.ReadCell(j, 7);
                             currCat.Weight = Convert.ToInt16(excel.ReadCell(j, 8));
 
@@ -135,8 +120,8 @@ namespace SchoolHelper
                             newCourse.AddGradeHist(Convert.ToDouble(excel.ReadCell(j, 2)));
                         }
 
-                        // Search for each sheets in the catagory vector
-                        foreach (Catagory catagory in newCourse.Catagories)
+                        // Search for each sheets in the category vector
+                        foreach (Category catagory in newCourse.Catagories)
                         {
                             // Opens the sheet
                             excel.OpenSheet(catagory.Name);
@@ -155,7 +140,7 @@ namespace SchoolHelper
                                 currGrade.PointsEarned = Convert.ToInt16(excel.ReadCell(k, 5));
                                 currGrade.PointsTotal = Convert.ToInt16(excel.ReadCell(k, 6));
 
-                                // Adds the grade to the catagory
+                                // Adds the grade to the category
                                 catagory.Grades.Add(currGrade);
                             }
                         }
@@ -170,6 +155,7 @@ namespace SchoolHelper
                 return courseData;
         }
 
+        // Gets all of the completed courses
         public static Courses ReadCompletedCourseFiles()
         {
             Courses courseData = new Courses();
@@ -188,7 +174,7 @@ namespace SchoolHelper
                 // Second line is credits
                 int credits = Convert.ToInt16(lines[i + 1]);
 
-                // Third line is grade recieved
+                // Third line is grade received
                 char letterGrade = Convert.ToChar(lines[i + 2]);
 
                 // Adds the new course in our vector
@@ -238,11 +224,11 @@ namespace SchoolHelper
             excel.WriteCol(2, 4, new string[] { "A:", "B:", "C:", "D:" });
             excel.WriteCol(2, 5, newCourse.GetPercCutoffAsString());
 
-            // Catagory information
+            // Category information
             excel.AlignCol(7, "left");
             excel.SetColWidth(7, 24);
             excel.AlignCol(8, "center");
-            excel.WriteCell(1, 7, "Catagory Weights:");
+            excel.WriteCell(1, 7, "Category Weights:");
 
             // Creates the gradeHistory sheet
             excel.AlignCol(2, "center");
@@ -253,10 +239,10 @@ namespace SchoolHelper
             excel.WriteCell(1, 2, "Grade:");
             excel.WriteCell(2, 1, EndOfData);
 
-            // Creates a new sheet for each catagory, edits the sheet and program information page
+            // Creates a new sheet for each category, edits the sheet and program information page
             for (int i = 0; i < newCourse.GetNumCatagories(); ++i)
             {
-                Catagory currCat = newCourse.Catagories[i];
+                Category currCat = newCourse.Catagories[i];
 
                 // Writes on the general sheet
                 excel.OpenSheet(GeneralSheetName);
@@ -266,12 +252,12 @@ namespace SchoolHelper
                 // Adds the sheet
                 excel.AddSheet(currCat.Name);
 
-                // Adds the catagory information on the sheet
+                // Adds the category information on the sheet
                 excel.AlignCol(1, "left");
                 excel.SetColWidth(1, 24);
                 excel.WriteCol(1, 1, new string[]
                 {
-                    "Catagory Name:",
+                    "Category Name:",
                     "Weight:",
                     "Assignments Expected:"
                 });
@@ -321,6 +307,7 @@ namespace SchoolHelper
             excel.Close();
         }
 
+        // Adds the new grade information to the completed course files
         public static void UpdateCompletedCourseFiles(Course newCourse)
         {
             string FilePath = @"FileSystem\COMPLETEDCOURSESINFO.txt";
@@ -338,7 +325,7 @@ namespace SchoolHelper
         // Deletes a course information
         public static void DeleteCourseFiles(Course delCourse)
         {
-            // Gets the course filepath
+            // Gets the course file path
             string dirPath = @"FileSystem\" + delCourse.Name;
 
             // Deletes the course and all files inside of it
@@ -361,10 +348,10 @@ namespace SchoolHelper
             excel.Close();
         }
 
-
+        // Updates the expected assignments in the excel file
         public static void UpdateExpAssignmentInfo(string newData, Course course, int catagoryIndex)
         {
-            // Creats the string path
+            // Creates the string path
             string FilePath = FindCourseFilePath(course);
             Excel excel = new Excel(Path.GetFullPath(FilePath));
             excel.OpenSheet(course.Catagories[catagoryIndex].Name);
@@ -375,9 +362,10 @@ namespace SchoolHelper
             excel.Close();
         }
 
+        // Updates the grade history
         public static void UpdateGradeHist(double newData, Course course)
         {
-            // Creats the string path
+            // Creates the string path
             string FilePath = FindCourseFilePath(course);
             Excel excel = new Excel(Path.GetFullPath(FilePath));
             excel.OpenSheet("GradeHistory");

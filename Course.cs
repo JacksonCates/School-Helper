@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 /* Description:
  * Is the blueprint for a course. Contains data such as the name,
- * credits, a list of catagories, a list of cut offs for each letter grade,
+ * credits, a list of categories, a list of cut offs for each letter grade,
  * a percentage grade, and a letter grade.
  * 
+ * This class will also contain screens that will need to change the data for a course.
+ * Such as viewing the course information and showing the grade history.
  */
 
 namespace SchoolHelper
@@ -17,13 +19,13 @@ namespace SchoolHelper
     {
         private string name;
         private int credits;
-        private List<Catagory> catagories = new List<Catagory>();
+        private List<Category> catagories = new List<Category>();
         private List<int> percCutoff; // Percentage need to get that grade (0 = A, 1 = B, etc)
         private List<double> gradeHistory = new List<double>();
         private double percGrade; // Grade total for the course
         private char letterGrade;
         private int finalWeight; // Weight of the final
-        private double percCompleted; // Total completetion of the course
+        private double percCompleted; // Total completion of the course
 
 
         public Course()
@@ -52,7 +54,7 @@ namespace SchoolHelper
             get => credits;
             set => credits = value;
         }
-        public List<Catagory> Catagories
+        public List<Category> Catagories
         {
             get => catagories;
             set => catagories = value;
@@ -72,7 +74,7 @@ namespace SchoolHelper
             calcCourseGrade();
             return percGrade;
         }
-        public Catagory GetCatagory(int catagoryIndex)
+        public Category GetCatagory(int catagoryIndex)
         {
             return catagories[catagoryIndex];
         }
@@ -99,10 +101,10 @@ namespace SchoolHelper
         }
         public double GetPercComplete()
         {
-            // Calculates the overal completion for the course
+            // Calculates the overall completion for the course
             int totalKnownEntires = 0; // Entries that we know have a certain amount of assignments
             int totalExpected = 0;
-            foreach (Catagory catagory in catagories)
+            foreach (Category catagory in catagories)
             {
                 if (catagory.ExpAssignments != -1)
                 {
@@ -115,7 +117,7 @@ namespace SchoolHelper
             return percCompleted;
         }
 
-        // Finds the letter grade for the catagory
+        // Finds the letter grade for the category
         public char FindLetterGrade(double percGrade)
         {
             char letterGrade;
@@ -145,16 +147,16 @@ namespace SchoolHelper
             return letterGrade;
         }
 
-
+        // Calculates the overall grade
         private double calcCourseGrade()
         {
             percGrade = 100; // Just if we have no grades stored in
             int totalWeight = 0; // Weights that have grades in them 
             double percEarned = 0; // Percentage amount that we have earned   
 
-            foreach(Catagory catagory in catagories)
+            foreach(Category catagory in catagories)
             {
-                // So we are not counting catagories without grades
+                // So we are not counting categories without grades
                 if (catagory.GetNumGrades() != 0)
                 {
                     totalWeight += catagory.Weight;
@@ -181,8 +183,8 @@ namespace SchoolHelper
 
             Console.SetCursorPosition(2, 10);
             int currHeight = 12;
-            Console.WriteLine("Catagories and Weights:");
-            foreach(Catagory catagory in catagories)
+            Console.WriteLine("Categories and Weights:");
+            foreach(Category catagory in catagories)
             {
                 Console.SetCursorPosition(2, currHeight++);
                 Console.WriteLine("   " + catagory.Name + " ~ " + catagory.Weight + "%");
@@ -197,7 +199,7 @@ namespace SchoolHelper
 
             currHeight++;
             Console.SetCursorPosition(2, currHeight++);
-            Console.WriteLine("Percentage Cuttoff Per Grade:");
+            Console.WriteLine("Percentage Cutoff Per Grade:");
             currHeight++;
             for (int i = 0; i < 4; ++i)
             {
@@ -215,7 +217,7 @@ namespace SchoolHelper
 
         /*
          * Prints to the screen about grade information. Lets the user decide if 
-         * they want to see all grades in every catagory
+         * they want to see all grades in every category
          */
         public void ViewGradeInfo()
         {
@@ -232,9 +234,9 @@ namespace SchoolHelper
             Console.SetCursorPosition(2, 6);
             Console.WriteLine("Letter Grade: " + letterGrade);
 
-            // Writes catagories main information
+            // Writes categories main information
             Console.SetCursorPosition(2, 9);
-            Console.WriteLine("Main Catagory Info:");
+            Console.WriteLine("Main Category Info:");
 
             // Prepares the data to be drawn into a table
             string[,] data = new string[catagories.Count() + 1, 7];
@@ -242,7 +244,7 @@ namespace SchoolHelper
             int i;
             for (i = 0; i < catagories.Count(); ++i)
             {
-                Catagory currCat = catagories[i];
+                Category currCat = catagories[i];
 
                 // Name
                 data[i, 0] = currCat.Name;
@@ -278,7 +280,7 @@ namespace SchoolHelper
             double totalLost = 0;
             int totalEntries = 0;
             int totalExpected = 0;
-            foreach (Catagory catagory in catagories)
+            foreach (Category catagory in catagories)
             {
                 totalWeight += catagory.Weight;
 
@@ -293,7 +295,7 @@ namespace SchoolHelper
             }
             GetPercComplete();
 
-            // Stores the remaning data
+            // Stores the renaming data
             data[i, 0] = "TOTAL";
             data[i, 1] = "";
             data[i, 2] = Convert.ToString(totalWeight) + "%";
@@ -316,25 +318,25 @@ namespace SchoolHelper
                 "# EXPECTED:", "% COMPLETED:" }, Program.TableColor, data, true);
                            
 
-            // Givse the user the choices to view through each catagory
+            // Gives the user the choices to view through each category
             Console.SetCursorPosition(2, Program.WindowHeight - 1);
-            Console.Write("Would you like to view each catagory (y/n)? ");
+            Console.Write("Would you like to view each category (y/n)? ");
             char userInput = Program.getYesOrNo();
 
             // Display the courses
             if (userInput == 'y')
             {
-                // Filps through all the catagories
-                foreach (Catagory catagory in catagories)
+                // Flips through all the categories
+                foreach (Category catagory in catagories)
                 {
                     Console.Clear();
 
                     // Prints the boarder and title
                     Draw.Border("Grade Information for " + name, 7, borderColor);
                     Console.SetCursorPosition(2, 4);
-                    Console.WriteLine("Catagory Grade: {0:0.00}% ~ " + FindLetterGrade(catagory.GetPercGrade()), catagory.GetPercGrade());
+                    Console.WriteLine("Category Grade: {0:0.00}% ~ " + FindLetterGrade(catagory.GetPercGrade()), catagory.GetPercGrade());
                     Console.SetCursorPosition(2, 6);
-                    Console.WriteLine("Catagory: " + catagory.Name);
+                    Console.WriteLine("Category: " + catagory.Name);
 
                     string[,] gradeData = new string[catagory.GetNumGrades(), 3];
 
@@ -358,6 +360,7 @@ namespace SchoolHelper
 
         }
 
+        // Prints a screen that creates a graph of the grade history
         public void ViewGradeHist()
         {
             // Finds the min and max of our grade history data
@@ -371,7 +374,7 @@ namespace SchoolHelper
                     max = data;
             }
 
-            // Prepares the lable data
+            // Prepares the label data
             List<Tuple<double, string>> labelData = new List<Tuple<double, string>>();
 
             // Stores all the possible label
@@ -392,13 +395,13 @@ namespace SchoolHelper
             Program.PrintPressAnyKeyToContinue();
         }
 
-        // Sets choices and logic for pick a catagory screen
-        // Choices is just the name of the catagory
+        // Sets choices and logic for pick a category screen
+        // Choices is just the name of the category
         public List<string> CreateChoices()
         {
             List<string> choices = new List<string>();
 
-            foreach (Catagory catagory in catagories)
+            foreach (Category catagory in catagories)
             {
                 choices.Add(catagory.Name);
             }

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 /* Description:
  * 
- * This is the class for the manager of multiple courses. It allows to set mutiple courses,
+ * This is the class for the manager of multiple courses. It allows to set multiple courses,
  * get and set a single course, the screen to add a new course from user input, and to set
- * the logic and choices for our pickCourse screen using the course infomration that is
+ * the logic and choices for our pickCourse screen using the course information that is
  * currently there.
  *  
+ * This class will also contain screens needed to manage multiple courses. Such as adding and deleting
+ * a course.
  */
 
 namespace SchoolHelper
@@ -22,7 +24,7 @@ namespace SchoolHelper
         private int gradePointsTotal;
         private double gpa;
 
-        // Constructur
+        // Constructor
         public Courses()
         {
             gradePointsEarned = 0;
@@ -69,6 +71,7 @@ namespace SchoolHelper
             get => courses.Count();
         }
 
+        // Converts a letter grade to grade points
         private int findGradePointsFromGrade(char letterGrade)
         {
             int gradePoints = 0;
@@ -95,6 +98,7 @@ namespace SchoolHelper
             return gradePoints;
         }
 
+        // Calculates overall gpa
         private void CalcGpa(int extraPointsEarned, int extraPointsTotal)
         {
             gradePointsEarned = 0;
@@ -112,16 +116,17 @@ namespace SchoolHelper
             gradePointsTotal += extraPointsTotal;
             gradePointsEarned += extraPointsEarned;
 
-            // Calulates gpa
+            // Calculates gpa
             gpa = Convert.ToDouble(gradePointsEarned) / gradePointsTotal;
         }
 
+        // Project GPA screen
         public void ProjectGpa(int extraPointsEarned, int extraPointsTotal)
         {
             Draw.Border("GPA Projection Screen:", 4, Program.currColor);
             int pointsEarned = 0, pointsTotal = 0;
 
-            // Asks the user to input a grade they'll think theyll get for each course
+            // Asks the user to input a grade they'll think they'll get for each course
             Console.SetCursorPosition(3, 6);
             Console.WriteLine("Write grade for each course:");
             int currHeight = 8;
@@ -165,6 +170,7 @@ namespace SchoolHelper
                 }
             }
 
+            // Prints the projected gpa
             gpa = Convert.ToDouble(pointsEarned + extraPointsEarned) / (extraPointsTotal + pointsTotal);
             Console.SetCursorPosition(currWidth - 2, ++currHeight);
             Console.WriteLine("Your projected GPA: {0:0.00}", gpa);
@@ -172,7 +178,7 @@ namespace SchoolHelper
             Program.PrintPressAnyKeyToContinue();
         }
 
-
+        // View "What do I need on my final?" screen
         public void ViewFinalNeeds()
         {
             // Draws the border and table
@@ -225,6 +231,7 @@ namespace SchoolHelper
                     }
                 }
 
+                // Draws the tab;e
                 Draw.TableWithData(6, 6, 18, new string[] {
                 "NAME:", "% GRADE", "FINAL WEIGHT", "A:", "B:", "C:", "D:", "% COMPLETED:"},
                      Program.TableColor, data, colorFormat: FormatFinalNeededColor);
@@ -243,7 +250,7 @@ namespace SchoolHelper
             Program.PrintPressAnyKeyToContinue();
         }
 
-        // View courses (Shows all courses with name, credits and letter grade
+        // View courses Shows all courses with name, credits and letter grade
         public void ViewCompetedCourses()
         {
             Draw.Border("Completed Course Information:", 6, Program.currColor);
@@ -304,24 +311,24 @@ namespace SchoolHelper
 
             if (competedCourse == false)
             {
-                Console.WriteLine(Environment.NewLine + "Enter catagory information (NAME WEIGHT): ");
+                Console.WriteLine(Environment.NewLine + "Enter category information (NAME WEIGHT): ");
 
-                // Data for catagory info
+                // Data for category info
                 int weightTotal = 0;
                 string line;
                 int spaceIndex;
                 int currWeight; // Place holder for weight
-                Catagory currCat; // Current catagory
-                List<Catagory> currCatagories = new List<Catagory>();
+                Category currCat; // Current category
+                List<Category> currCatagories = new List<Category>();
 
-                // Gets the catagory information from the user
+                // Gets the category information from the user
                 while (weightTotal != 100)
                 {
                     line = Console.ReadLine();
                     line = line.ToUpper();
 
                     // Breaks the line into the two information we need
-                    currCat = new Catagory();
+                    currCat = new Category();
                     spaceIndex = line.IndexOf(' ');
                     currCat.Name = line.Substring(0, spaceIndex);
                     currWeight = Convert.ToInt16(line.Substring(spaceIndex, line.Length - spaceIndex));
@@ -353,11 +360,11 @@ namespace SchoolHelper
                 // Adds cat info to course
                 newCourse.Catagories = currCatagories;
 
-                // Inputs cutt off
+                // Inputs cutoff
                 List<int> percCutoff = new List<int>();
                 Console.WriteLine(Environment.NewLine + "Enter Grade Cutoff Information:");
 
-                // Adds the cutt of for each
+                // Adds the cutoff for each
                 for (char i = 'A'; i <= 'D'; ++i)
                 {
                     Console.Write("   " + i + ": ");
@@ -381,18 +388,18 @@ namespace SchoolHelper
             }
             else
             {
-                Console.Write(Environment.NewLine + "Enter grade recived: ");
+                Console.Write(Environment.NewLine + "Enter grade received: ");
                 char letterGrade = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
 
                 // Checks choice
                 while (letterGrade != 'A' && letterGrade != 'B' && letterGrade != 'C' && letterGrade != 'D' && letterGrade != 'F')
                 {
                     Console.WriteLine("Incorrect choice, try again");
-                    Console.Write("Enter grade recived: ");
+                    Console.Write("Enter grade revived: ");
                     letterGrade = Char.ToUpper(Convert.ToChar(Console.Read()));
                 }
 
-                // Updaates the course
+                // Updates the course
                 newCourse.LetterGrade = letterGrade;
             }
 
@@ -415,9 +422,9 @@ namespace SchoolHelper
             Console.SetCursorPosition(2, 10);
             Console.WriteLine("Credits " + courses[courseIndex].Credits);
 
-            // Gets the grade recieved in the course
+            // Gets the grade received in the course
             Console.SetCursorPosition(2, 12);
-            Console.Write("Enter grade recieved: ");
+            Console.Write("Enter grade received: ");
             char letterGrade = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
 
             // Checks choice
@@ -427,7 +434,7 @@ namespace SchoolHelper
                 Console.SetCursorPosition(2, currPos++);
                 Console.WriteLine("Incorrect choice, try again");
                 Console.SetCursorPosition(2, currPos++);
-                Console.Write("Enter grade recived: ");
+                Console.Write("Enter grade revived: ");
                 letterGrade = Char.ToUpper(Convert.ToChar(Console.Read()));
                 currPos += 2;
             }

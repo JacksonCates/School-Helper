@@ -4,20 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/* The BrancingScreen class is a screen that gives the user a list of choices,
+/* The Menu class is a screen that gives the user a list of choices,
  * the user inputs a choice, and then it returns a index for what we need to do
- * next. 
- * 
- * This class is what mainly made my code shorter from my C++ version (That code being
- * around 2700 lines of code). This is because every time I wanted a screen like this, 
- * I would need to write an entire new function. Thankfully, classes allows you to create 
- * the blueprint for the object and allows you to make multiple objects.
- * 
+ * next. This class also implements the Draw class by drawing a formatted boarder.
+ * This color of the boarder is based of a variable inside the program class. * 
  */
 
 namespace SchoolHelper
 {
-    class BranchingScreen
+    class Menu
     {
         // Variables
         private string userInput; // Index 0 will be the user choice. The rest is to catch mistakes
@@ -25,8 +20,8 @@ namespace SchoolHelper
         private List<string> choices;
         private List<int> logic = new List<int>();
         
-        // Constructor
-        public BranchingScreen(string title) { this.title = title; }
+        // Constructor, require a title
+        public Menu(string title) { this.title = title; }
          
         // Setters for choices and logic and title
         public void SetChoices(List<string> choices) { this.choices = choices; }
@@ -49,6 +44,7 @@ namespace SchoolHelper
             // Prints the screen
             PrintScreen();
 
+            // Gets the user input
             getUserInput();
 
             //Returns logic
@@ -59,6 +55,7 @@ namespace SchoolHelper
         // Gets the user inputs and checks to see if its within that range, if not it reprints the screen and gets another choice
         private void getUserInput()
         {
+            // Gets the user input
             Console.SetCursorPosition(3, Program.WindowHeight - 2);
             Console.Write("> ");
             userInput = Console.ReadLine().ToUpper();
@@ -77,7 +74,7 @@ namespace SchoolHelper
         }
 
 
-        // Prints the scrren
+        // Prints the screen
         private void PrintScreen()
         {
             ConsoleColor borderColor = Program.currColor;

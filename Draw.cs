@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/* Description:
+ * 
+ * This class is a utility class that allows drawing. Used for formatting and fancy output.
+ * 
+ */
+
 namespace SchoolHelper
 {
     class Draw
@@ -13,6 +19,7 @@ namespace SchoolHelper
         private static ConsoleColor savedColor;
         private static char blank = ' ';
 
+        // Boarder chars
         private static char ulCorner = '╔';
         private static char llCorner = '╚';
         private static char urCorner = '╗';
@@ -20,6 +27,7 @@ namespace SchoolHelper
         private static char vertical = '║';
         private static char horizontal = '═';
 
+        // Draws a rectangle
         public static void Rectangle(
             int xLoc, int yLoc,
             int width, int height,
@@ -51,6 +59,7 @@ namespace SchoolHelper
             RestoreInfo();
         }
 
+        // Draws a horizontal line
         public static void HorLine(
             int xLoc, int yLoc, int Length,
             ConsoleColor color)
@@ -65,7 +74,7 @@ namespace SchoolHelper
             RestoreInfo();
         }
 
-
+        // Draws a vertical line
         public static void VerLine(
             int xLoc, int yLoc, int Length,
             ConsoleColor color)
@@ -80,7 +89,7 @@ namespace SchoolHelper
             RestoreInfo();
         }
 
-        // For internal use
+        // For internal use, used when a color is already defined
         private static void HorLine(
             int xLoc, int yLoc, int Length)
         {
@@ -139,12 +148,12 @@ namespace SchoolHelper
             RestoreInfo();
         }
 
-
+        // Draws a histogram with data already given
         public static void GraphWithData(int xLoc, int yLoc, double[] data,
             int height, double max, double min, List<Tuple<double, string>> labelData,
             ConsoleColor axisColor, ConsoleColor barColor)
         {           
-            // first index of labelData is a precentage, the nexxt is the string to write
+            // first index of labelData is a percentage, the next is the string to write
 
             Graph(xLoc, yLoc, height, data.Length, axisColor);
 
@@ -185,6 +194,7 @@ namespace SchoolHelper
             }
         }
 
+        // Draws a boarder with a title
         public static void Border(string title, int titleHeight, ConsoleColor BorderColor)
         {
             // Prints title
@@ -195,7 +205,7 @@ namespace SchoolHelper
 
             Rectangle(0, 0, Program.WindowWidth, Program.WindowHeight);
 
-            // Draws line seperator
+            // Draws line separator
             Write(0, titleHeight, llCorner);
             Write(Program.WindowWidth, titleHeight, lrCorner);
             HorLine(1, titleHeight, Program.WindowWidth - 2);
@@ -204,7 +214,7 @@ namespace SchoolHelper
             Console.SetCursorPosition(2, titleHeight + 2);
         }
 
-
+        // Draws a table
         public static void Table(int xLoc, int yLoc, 
             int height, string[] headers, int[] extraSpace, ConsoleColor color)
         {
@@ -233,7 +243,7 @@ namespace SchoolHelper
             RestoreInfo();
         }
 
-
+        // Draws a table with data
         public static void TableWithData(int xLoc, int yLoc,
             int height, string[] headers, ConsoleColor color,
             string[,] data, bool ContainsTotal = false, bool ExtraSpace = true,
@@ -256,7 +266,7 @@ namespace SchoolHelper
                 }
                                
                 // Stores that information into the array
-                // If the title is large enough, dont need space!
+                // If the title is large enough, don't need space!
                 if (headers[i].Length + 2 > maxLength)
                 {
                     spaceNeeded[i] = 0;
@@ -275,7 +285,7 @@ namespace SchoolHelper
             int yPrint = yLoc + 2; // y location to print
             for (int i = 0; i < data.GetLength(1); ++i)
             {
-                // Finds the sapce in the col
+                // Finds the space in the col
                 int space = headers[i].Length + 5 + spaceNeeded[i] * 2;
 
                 int origX = xPrint;
@@ -313,18 +323,20 @@ namespace SchoolHelper
                         yPrint++;
                 }
 
-                // Goes to the nex col
+                // Goes to the next col
                 xPrint = origX + space;
                 yPrint = yLoc + 2;
             }
         }        
 
+        // Draws at a specified coordinate
         private static void Write(int xLoc, int yLoc, char ch)
         {
             Console.SetCursorPosition(xLoc, yLoc);
             Console.Write(ch);
         }
 
+        // Saves the info
         private static void SaveInfo(ConsoleColor color)
         {
             savedCursorLeft = Console.CursorLeft;
@@ -335,6 +347,7 @@ namespace SchoolHelper
             Console.ForegroundColor = color;
         }
 
+        // Restores info
         private static void RestoreInfo()
         {
             // Restores the cursor and background values

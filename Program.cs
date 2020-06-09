@@ -7,23 +7,9 @@ using System.Threading.Tasks;
 /*
  * Name: Jackson Cates
  * 
- * Date: 10/21/2019
+ * Date: 6/9/2020
  * 
- * TODO:
- *  DONT SHOW PROJECTED GPA WHEN THERE ARE NO COURSES
- *  SHOW GPA WITH CURRENT COURSE GRADES
- *  VIEW GRADE HISTROY CRASHES WHEN THERE IS NO HISTORY
- * 
- * BUGS:
- *  CRASHES WHEN TRIES TO DELETE LAST GRADE
- * 
- * TODO:
- *  Be able to edit grades and courses that are already in the system 
- *  Change how it stores data into SQL or Excel
- * 
- */
-
-/* Description:
+ * Description:
  * 
  * The purpose of this program is to manage courses using files and to give the 
  * user stats about that course. I made this because I have a few profs that grade
@@ -37,11 +23,11 @@ using System.Threading.Tasks;
  * What index it returns depends on what screen it needs to go to. If it simply needs
  * to go to another screen with choices that the user chooses, it
  * will simply return an index that correlates with the Screens enum. If it needs to go
- * to a screen for a specific course or catagory, it will return the index for that course
- * or catagory, then using the nextScreen variable it will go to that next screen
+ * to a screen for a specific course or category, it will return the index for that course
+ * or category, then using the nextScreen variable it will go to that next screen
  * 
- * While for most "BranchingScreens" that just lets the user chooses another screen as the
- * choices and logic are "set in stone", the pickCourse and pickCatagory screens reqiure
+ * While for most menus that just lets the user chooses another screen as the
+ * choices and logic are "set in stone", the pickCourse and pickCatagory screens require
  * updating logic and choices because the data can change. This is done by the 'Courses"
  * class that sets and return logic and choices, then we use the UpdateScreens function.
  * 
@@ -52,7 +38,7 @@ namespace SchoolHelper
     // List of possible screens we can have
     enum Screens { MainScreen, ViewCourse, Editcourses, ExitProg, AddNewCourse, PickCourse, GradeManagement, ViewGradeInfo,
         AddNewGrade, PickCatagory, DeleteCourse, DeleteGrade, GpaManager, AddNewCompletedCourse, ViewCompletedCourses, ProjectGPA,
-        WhatDoINeedOnFinal, AddOldCompletedCourse, EditCourseInfo, InputExpectedAssignments, ViewGradeHist }
+        WhatDoINeedOnFinal, AddOldCompletedCourse, InputExpectedAssignments, ViewGradeHist }
 
     class Program
     {
@@ -62,23 +48,23 @@ namespace SchoolHelper
         // Screen logic
         static Screens currScreen; // Current screen for the program to go to
         static Screens returnScreen; // Screen that the program will return to if need be
-        static Screens nextScreen; // This will be the screen after if we need to find a spefic course/catagory
+        static Screens nextScreen; // This will be the screen after if we need to find a specific course/category
         static int courseIndex; // Index for the course
-        static int catagoryIndex; // Index for a catagory in a course
-        static int gradeIndex; // Index for a grade in a catagory in a course
+        static int catagoryIndex; // Index for a category in a course
+        static int gradeIndex; // Index for a grade in a category in a course
 
         // Course data
         static Courses courses = new Courses();
         static Courses competedCourses = new Courses();
 
         // Screens
-        static BranchingScreen MainScreen = new BranchingScreen("Welcome to Jackson's School Helper");
-        static BranchingScreen EditCoursesScreen = new BranchingScreen("Edit Courses Screen");
-        static BranchingScreen PickCourseScreen = new BranchingScreen("Pick a Course Screen");
-        static BranchingScreen GradeManagementScreen = new BranchingScreen("Grade Management Screen for ");
-        static BranchingScreen PickCatagoryScreen = new BranchingScreen("Pick a Catagory Screen");
-        static BranchingScreen PickGradeScreen = new BranchingScreen("Pick a Grade Screen");
-        static BranchingScreen GpaManagerScreen = new BranchingScreen("GPA Management Screen");
+        static Menu MainScreen = new Menu("Welcome to Jackson's School Helper");
+        static Menu EditCoursesScreen = new Menu("Edit Courses Screen");
+        static Menu PickCourseScreen = new Menu("Pick a Course Screen");
+        static Menu GradeManagementScreen = new Menu("Grade Management Screen for ");
+        static Menu PickCatagoryScreen = new Menu("Pick a Category Screen");
+        static Menu PickGradeScreen = new Menu("Pick a Grade Screen");
+        static Menu GpaManagerScreen = new Menu("GPA Management Screen");
 
         // Drawing data
         const int StartingWindowWidth = 120;
@@ -107,6 +93,7 @@ namespace SchoolHelper
             // Sets up the screens
             SetUp();
 
+            // Loops until the end of the program
             while (endProg == false)
             {
                 Console.Clear();
@@ -143,10 +130,10 @@ namespace SchoolHelper
 
                 }
 
-                // Checks if we need to pick a course, catagory, or grade
+                // Checks if we need to pick a course, category, or grade
                 // current courses
                 if (currScreen == Screens.ViewCourse || currScreen == Screens.DeleteCourse || currScreen == Screens.GradeManagement
-                    || currScreen == Screens.AddOldCompletedCourse || currScreen == Screens.EditCourseInfo || currScreen == Screens.InputExpectedAssignments)
+                    || currScreen == Screens.AddOldCompletedCourse || currScreen == Screens.InputExpectedAssignments)
                 {
                     nextScreen = currScreen;
 
@@ -166,7 +153,7 @@ namespace SchoolHelper
                         currScreen = returnScreen;
                     }
                 }
-                // catagory
+                // category
                 if (currScreen == Screens.AddNewGrade || currScreen == Screens.DeleteGrade || currScreen == Screens.InputExpectedAssignments)
                 {
                     nextScreen = currScreen;
@@ -284,8 +271,10 @@ namespace SchoolHelper
 
                     case Screens.DeleteGrade:
 
+                        // Gets the course that we need to delete
                         needDelete = courses.GetCourse(courseIndex).GetCatagory(catagoryIndex).DeleteGrade(gradeIndex);
 
+                        // Checks if the user wants to delete the grade
                         if (needDelete)
                         {
                             FileSystem.DeleteGradeInfo(courses.GetCourse(courseIndex), catagoryIndex, gradeIndex);
@@ -335,17 +324,6 @@ namespace SchoolHelper
                         currScreen = returnScreen;
                         break;
 
-
-                    // ADD EDIT COURSE INFORMATION HERE
-                    case Screens.EditCourseInfo:
-
-                        courses.EditCourseInfo(courseIndex);
-
-                        // Update in filesystem
-
-                        currScreen = returnScreen;
-                        break;
-
                     case Screens.InputExpectedAssignments:
                         // Save old data
                         oldData = Convert.ToString(courses.GetCourse(courseIndex).GetCatagory(catagoryIndex).ExpAssignments);
@@ -363,7 +341,7 @@ namespace SchoolHelper
             }
         }
 
-        // Sets up screen that have "set in stone" choies
+        // Sets up screen that have "set in stone" choices
         private static void SetUp()
         {
             // Gets the window width and height
@@ -393,7 +371,7 @@ namespace SchoolHelper
 
         }
 
-        // Updates screens for when we need to pick a course or catagory or grade
+        // Updates screens for when we need to pick a course or category or grade
         private static void UpdateCourseScreen()
         {
             PickCourseScreen.SetChoices(courses.CreateChoices());

@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 /* Description:
- * Is the blueprint for our catagory object. Contains data is the name,
- * the weight, a list of grades, percentage grade, and letter grade. Allows
- * new grade to be inputed directly or from user input. 
+ * Is the blueprint for our category object. Contains data is the name,
+ * the weight, a list of grades, percentage grade, and letter grade. 
+ * 
+ * This class will also contain the screens needed for a category, such as adding a grade,
+ * removing a grade, and changing the number of expected assignments.
  */
 
 namespace SchoolHelper
 {
-    class Catagory
+    class Category
     {
         private string name;
         private int weight;
         private List<Grade> grades = new List<Grade>();
-        private double percGrade; // Grade total for the catagory
-        private char letterGrade; // Letter grade for the catagory
+        private double percGrade; // Grade total for the category
+        private char letterGrade; // Letter grade for the category
         private int expAssignments; // Number of assignments to be expected, -1 is unknown
-        private double percComplete;
 
         // Default Constructor
-        public Catagory()
+        public Category()
         {
             name = "No Name";
             weight = -1;
@@ -94,7 +95,7 @@ namespace SchoolHelper
         }
 
 
-        // Calculates the overall grade for the catagory
+        // Calculates the overall grade for the category
         private void CalcPercGrade()
         {
             int totalPointsEarned = 0;
@@ -113,7 +114,7 @@ namespace SchoolHelper
         }
 
 
-
+        // Screen to allow the user to input the expected assignments for the category
         public int InputExpAssignments()
         {
             // Makes a border
@@ -146,7 +147,7 @@ namespace SchoolHelper
         }
 
 
-        // Adds a grade from user input
+        // Screen for adding a new grade
         public Grade AddNewGrade()
         {
             Grade newGrade = new Grade();
@@ -171,7 +172,7 @@ namespace SchoolHelper
             return newGrade;
         }
 
-
+        // Screen for deleting a grade
         public bool DeleteGrade(int gradeIndex)
         {
             // Checks if the user wants to delete the course

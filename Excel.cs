@@ -7,6 +7,12 @@ using System.IO;
 using Microsoft.Office.Interop.Excel;
 using _Excel = Microsoft.Office.Interop.Excel;
 
+/* Description:
+ * 
+ * This class allows us to manage data with an excel file. This includes opening the file,
+ * reading and editing cell values, and formatting the sheets.
+ */
+
 namespace SchoolHelper
 {
     class Excel
@@ -44,6 +50,7 @@ namespace SchoolHelper
             ws = wb.Worksheets[Sheet];
         }                
 
+        // Opens a sheet with a name
         public void OpenSheet(string name)
         {
             // Finds the index for the sheet
@@ -71,6 +78,7 @@ namespace SchoolHelper
             }
         }
 
+        // Adds a new sheet
         public void AddSheet(string name)
         {
             // Appends the worksheet to the end
@@ -79,6 +87,7 @@ namespace SchoolHelper
             RenameCurrentSheet(name);
         }
 
+        // Renames the current sheet that is opened
         public void RenameCurrentSheet(string name)
         {
             // Test if a worksheet is selected
@@ -95,6 +104,7 @@ namespace SchoolHelper
             }
         }
 
+        // Sets the alignment of a col
         public void AlignCol(int col, string align)
         {
             align = align.ToLower();
@@ -106,7 +116,7 @@ namespace SchoolHelper
                 Console.WriteLine("ERROR: NO SHEET SELECTED");
                 Console.ReadKey();
             }
-            // Test if a correct option was choosen
+            // Test if a correct option was chosen
             else if (align.Equals("left") == false && align.Equals("right") == false && align.Equals("center") == false)
             {
                 // Sends error msg
@@ -125,7 +135,7 @@ namespace SchoolHelper
             }
         }
 
-
+        // Sets the col width
         public void SetColWidth(int col, double width)
         {
             // Test if a worksheet is selected
@@ -135,7 +145,7 @@ namespace SchoolHelper
                 Console.WriteLine("ERROR: NO SHEET SELECTED");
                 Console.ReadKey();
             }
-            // Test if a correct option was choosen
+            // Test if a correct option was chosen
             else if (width < 0)
             {
                 // Sends error msg
@@ -148,6 +158,7 @@ namespace SchoolHelper
             }
         }
 
+        // Reads the cell given a number for col
         public string ReadCell(int row, int col)
         {
             // Converts the row and col to its respective numbers
@@ -165,6 +176,7 @@ namespace SchoolHelper
             }
         }
 
+        // Reads the cell given a char for col
         public string ReadCell(int row, char col)
         {
             // Converts the row and col to its respective numbers
@@ -182,6 +194,7 @@ namespace SchoolHelper
             }
         }
         
+        // Writes the cell given char for col
         public void WriteCell(int row, char col, string data)
         {
             // Converts the row and col to its respective numbers
@@ -192,6 +205,7 @@ namespace SchoolHelper
             ws.Cells[i, j].Value2 = data;
         }
 
+        // Writes the cell given int for col
         public void WriteCell(int row, int col, string data)
         {
             // Converts the row and col to its respective numbers
@@ -202,6 +216,7 @@ namespace SchoolHelper
             ws.Cells[i, j].Value2 = data;
         }
         
+        // Writes a formula given int col at a cell
         public void WriteCellFormula(int row, int col, string formula)
         {
             int i = row;
@@ -210,6 +225,7 @@ namespace SchoolHelper
             ws.Cells[i, j].Value = formula;
         }
 
+        // Writes a col of data given char as col
         public void WriteCol(int startRow, char col, string[] datas)
         {
             // Converts the row and col to its respective numbers
@@ -223,6 +239,7 @@ namespace SchoolHelper
             }
         }
         
+        // Writes a col of data given int as col
         public void WriteCol(int startRow, int col, string[] datas)
         {
             // Converts the row and col to its respective numbers
@@ -236,6 +253,7 @@ namespace SchoolHelper
             }
         }
 
+        // Finds the old data and replaces it with the new data
         public int ReplaceAtCol(int startRow, int col, string oldData, string newData)
         {
             // Finds the row
@@ -245,10 +263,11 @@ namespace SchoolHelper
             // Replaces
             WriteCell(i, col, newData);
 
-            // Returns the row incase they need to know
+            // Returns the row
             return i;
         }
 
+        // Appends a col of data, starts where the first cell is empty
         public void AppendAtCol(int startRow, int col, string data)
         {
             // Finds the row index
@@ -275,7 +294,7 @@ namespace SchoolHelper
             }
             endRow = i - 1; // Where the row ends
 
-            // Test, if unassign post error
+            // Test, if unassigned post error
             if (deleteRow == -1)
             {
                 Console.WriteLine("ERROR: DeleteRow not found");
@@ -284,7 +303,7 @@ namespace SchoolHelper
             // Saves all of the data in a 2D matrix
             for (i = deleteRow + 1; i <= endRow; i++)
             {
-                // Take the current row and move it down the the previous row
+                // Take the current row and move it down the previous row
                 for (int j = startCol; j <= endCol; j++)
                 {
                     WriteCell(i - 1, j, ReadCell(i, j));
@@ -298,6 +317,7 @@ namespace SchoolHelper
             }
         }
 
+        // Close the excel sheet
         public void Close()
         {
             // Saves
